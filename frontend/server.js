@@ -8,11 +8,12 @@ new WebpackDevServer(webpack(config), {
   hot: true,
   historyApiFallback: true,
 
-  proxy: [{
-    path : /\/api(.*)/,
-    target: "http://localhost:3000",
-    rewrite: (req) => {req.url = req.url.substring(4); console.log(req.url)}
-  }]
+  proxy: {
+    '/api': {
+      target: 'http://localhost:3000',
+      pathRewrite: {'^/api' : ''}
+    }
+  }
 }).listen(process.env.PORT, process.env.IP, function (err, result) {
   if (err) {
     console.log(err);
